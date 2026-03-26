@@ -1,88 +1,105 @@
 # GA4 E-commerce Funnel & User Behavior Analysis (BigQuery)
 
 ## Project Overview
+
 This project analyzes user behavior and conversion performance using Google Analytics 4 (GA4) event-level data in BigQuery.
 
-It focuses on funnel analysis, session behavior, engagement metrics, and landing page performance.
+It focuses on funnel analysis, session behavior, engagement metrics, and landing page performance to understand how users move through the product and what drives conversions.
 
 ---
 
 ## Data Source
-- Google BigQuery  
-- Dataset: `bigquery-public-data.ga4_obfuscated_sample_ecommerce`
+
+* Google BigQuery
+* Dataset: `bigquery-public-data.ga4_obfuscated_sample_ecommerce`
 
 ---
 
 ## Analysis Tasks
 
 ### 1. Event-Level Data Extraction
-- Extract session_id using `UNNEST(event_params)`
-- Retrieve event-level attributes such as:
-  - event_name
-  - country
-  - device category
-  - traffic source
+
+Extract key fields from GA4 event data:
+
+* session_id (via `UNNEST(event_params)`)
+* user_pseudo_id
+* event_name
+* device, country, traffic source
+
+File: `01_event_extraction.sql`
 
 ---
 
 ### 2. Funnel Analysis
-- session_start → add_to_cart → begin_checkout → purchase  
-- Calculate conversion rates:
-  - visit → cart  
-  - visit → checkout  
-  - visit → purchase  
 
-(Your funnel query burada 👇)  
-:contentReference[oaicite:0]{index=0}
+Build a session-level funnel:
+
+* session_start → add_to_cart → begin_checkout → purchase
+
+Calculate conversion rates:
+
+* visit → cart
+* visit → checkout
+* visit → purchase
+
+File: `02_funnel_analysis.sql`
 
 ---
 
-### 3. Landing Page Performance
-- Extract landing page path using regex  
-- Analyze:
-  - sessions per page  
-  - purchases  
-  - conversion rate  
+### 3. Landing Page Analysis
 
-:contentReference[oaicite:1]{index=1}
+Analyze landing page performance:
+
+* extract landing page path using regex
+* calculate:
+
+  * number of sessions
+  * number of purchases
+  * conversion rate
+
+File: `03_landing_page_analysis.sql`
 
 ---
 
 ### 4. Engagement & Purchase Correlation
-- Analyze relationship between:
-  - session engagement  
-  - engagement time  
-  - purchase behavior  
 
-:contentReference[oaicite:2]{index=2}
+Evaluate relationship between engagement and conversion:
 
----
+* session_engaged vs purchase
+* engagement_time vs purchase
 
-### 5. Event Dataset Exploration
-- Build structured event dataset with:
-  - session_id  
-  - device  
-  - source / medium / campaign  
+Uses correlation analysis to measure impact.
 
-:contentReference[oaicite:3]{index=3}
+File: `04_engagement_correlation.sql`
 
 ---
 
 ## SQL Highlights
-- `UNNEST(event_params)` for GA4 structure  
-- session-level aggregation  
-- funnel conversion logic  
-- regex extraction for URLs  
-- window-independent behavioral analysis  
-- correlation analysis  
+
+* `UNNEST(event_params)` for GA4 nested data
+* session-level aggregation
+* funnel conversion logic
+* regex extraction for URLs
+* `SAFE_DIVIDE` for safe calculations
+* `CORR()` for statistical analysis
 
 ---
 
 ## Tools Used
-- Google BigQuery
-- SQL
+
+* Google BigQuery
+* SQL
+
+---
+
+## Key Insights
+
+* Not all sessions lead to meaningful engagement, and engagement level impacts conversion likelihood
+* Funnel drop-offs highlight critical stages where users abandon the process
+* Landing page performance varies significantly, affecting overall conversion rates
 
 ---
 
 ## Conclusion
-This project demonstrates how GA4 event-level data can be transformed into meaningful insights, including funnel performance, user engagement behavior, and landing page effectiveness.
+
+This project demonstrates how GA4 event-level data can be transformed into meaningful insights using BigQuery, enabling product and marketing teams to understand user behavior, optimize funnels, and improve conversion performance.
