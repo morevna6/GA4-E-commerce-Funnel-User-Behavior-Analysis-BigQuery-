@@ -103,3 +103,10 @@ File: `04_engagement_correlation.sql`
 ## Conclusion
 
 This project demonstrates how GA4 event-level data can be transformed into meaningful insights using BigQuery, enabling product and marketing teams to understand user behavior, optimize funnels, and improve conversion performance.
+
+## Improvements (Assignment Changes)
+
+- Improved session counting using DISTINCT logic  
+- Fixed data type issues using explicit casting  
+- Enhanced attribution accuracy using session-level joins  
+- Expanded analysis across multiple dates using wildcard tables  
